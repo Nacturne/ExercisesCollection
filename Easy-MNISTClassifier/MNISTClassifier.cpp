@@ -1,8 +1,8 @@
-/*
- * MNISTClassifier.cpp
+/**
+ * @file MNISTClassifier.cpp
  *
- *  Created on: Aug 30, 2016
- *      Author: roy_shilkrot
+ * @date 2016/11/19
+ * @author roy_shilkrot, Xiao Liang
  */
 
 #include "MNISTClassifier.h"
