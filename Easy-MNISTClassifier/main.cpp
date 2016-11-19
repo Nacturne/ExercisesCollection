@@ -13,46 +13,63 @@ using namespace std;
 
 int main(int argc, char** argv) {
 
+    // Read in the training set.
     MNISTDataset trainDataset = MNISTClassifier::loadDatasetFromFiles("data/train-labels.idx1-ubyte", "data/train-images.idx3-ubyte");
+    // Read in the test set.
     MNISTDataset testDataset = MNISTClassifier::loadDatasetFromFiles("data/t10k-labels.idx1-ubyte", "data/t10k-images.idx3-ubyte");
 
+
+    //output the attribute date to check whether it works.
+    cout << "---------------------------------------------------" << endl;
+    cout << "Information for images in training set" << endl;
+    cout << "---------------------------------------------------" << endl;
+    cout << "magic number:      " << trainDataset.imageMagicNumber << endl;
+    cout << "number of images:  " << trainDataset.numberOfImages << endl;
+    cout << "number of rows:    " << trainDataset.rowsOfImage << endl;
+    cout << "number of columns: " << trainDataset.ColsOfImage << endl;
+    cout << "---------------------------------------------------\n\n" << endl;
+
+    cout << "---------------------------------------------------" << endl;
+    cout << "Information for labels in training set" << endl;
+    cout << "---------------------------------------------------" << endl;
+    cout << "magic number:      " << trainDataset.labelMagicNumber << endl;
+    cout << "number of labels:  " <<trainDataset.numberOfLabels << endl;
+    cout << "---------------------------------------------------\n\n" << endl;
+
+
+
+    // Load a pre-trained model and test its performance on test dataset:
+    // Initialize a MNISTClassifer so that it wn't train the model automatically.
+    MNISTClassifier test1(testDataset, false);
+    // Load the pre-trained model.
+    test1.load("models/model_defalt.xml");
+    // Run the model and print out the statistics for performance.
+    test1.runTestDatasetAndPrintStats(testDataset);
+
+
 /*
-    //output the attribute date to check whether it works
-    cout<< trainDataset.imageMagicNumber << endl;
-    cout<< trainDataset.numberOfImages << endl;
-    cout<< trainDataset.rowsOfImage << endl;
-    cout<< trainDataset.ColsOfImage << endl;
-    cout<< trainDataset.labelMagicNumber << endl;
-    cout<< trainDataset.numberOfLabels << endl;
+    //train a model with the default settings and save it to "models/model_default.xml"
+    MNISTClassifier classifier(trainDataset);
+    classifier.runTestDatasetAndPrintStats(testDataset);
+    classifier.save("models/model_defalt_2.xml");
 */
 
-    //MNISTClassifier classifier(trainDataset);
-    //classifier.runTestDatasetAndPrintStats(testDataset);
 
+    // Train a  model with user-defined settings for parameters:
+    // Initialize a MNISTClassifer so that it wn't train the model automatically.
+    MNISTClassifier test2(trainDataset,false);
+    // Train the model use our own settings:
+    // Iteration = 10
+    // Learning Rate = 0.01
+    // MiniBatch size = 500
+    // Regularization = disabled
+    test2.softmaxTrain(trainDataset, 3, 0.01, 500, -1);
+    // Run the model and print out the statistics for performance.
+    test2.runTestDatasetAndPrintStats(testDataset);
+    // Save the model to "models/test-3-01-500.xml".
+    test2.save("models/test-3-01-500.xml");
 
-
-
-    MNISTClassifier test(testDataset, false);
-    test.load("models/test.xml");
-    test.runTestDatasetAndPrintStats(testDataset);
-
-    test.load("models/test-300-01-500.xml");
-    test.runTestDatasetAndPrintStats(testDataset);
-
-    test.load("models/test-5-05-10.xml");
-    test.runTestDatasetAndPrintStats(testDataset);
-
-    cout << test.classifyImage(trainDataset.images[0]) << endl;
-
-
-
-    MNISTClassifier classifier(trainDataset,false);
-    classifier.softmaxTrain(trainDataset, 3, 0.01, 500, -1);
-    classifier.runTestDatasetAndPrintStats(testDataset);
-    classifier.save("models/temp.xml");
 
     return 0;
 
 }
-
-

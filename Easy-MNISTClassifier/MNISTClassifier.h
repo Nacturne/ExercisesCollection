@@ -9,14 +9,9 @@
 #define MNISTCLASSIFIER_H_
 
 #include <string>
-#include <opencv2/core/core.hpp>
-
-
-
 #include <opencv2/opencv.hpp>
 
 struct MNISTDataset {
-	//TODO: add data fields as nessecary
 	//e.g. std::vector<cv::Mat> images;
 	//     std::vector<int>     labels;
     int imageMagicNumber = 0;
@@ -32,6 +27,14 @@ struct MNISTDataset {
 
 class MNISTClassifier {
 public:
+
+	/**
+	 * The constructor will construct a MNISTClassifier from a MNISTDataset instance.
+	 * By default, it will train a softmax classifier.
+	 *
+	 * @param trainDataset The dataset used to construct the instance.
+	 * @param train The flag indicating whether to traing thesoftmax classifier. Set it to 'false' when load a pre-trained model outside.
+	 */
 	MNISTClassifier(const MNISTDataset& trainDataset, bool train = true);
 	virtual ~MNISTClassifier();
 
@@ -69,18 +72,18 @@ public:
 	 * @param regularization The method for regularization: -1 for disabled; 0 for L1 regularizaton; 1 for L2 regularization.
 	 */
 	void softmaxTrain(const MNISTDataset &dataSet,
-        int iteration = 100, double learningRate = 0.01, int MiniBatchSize = 100, int regularization = 1);
+        int iteration = 300, double learningRate = 0.01, int MiniBatchSize = 100, int regularization = 1);
 
     /**
-    * Save the trained model to a file specified by user. Model would be saved in 'xml' format.
-    * @param fileName The file name to save the model. The recomended extension is '.xml'.
-    */
+     * Save the trained model to a file specified by user. Model would be saved in 'xml' format.
+     * @param fileName The file name to save the model. The recomended extension is '.xml'.
+     */
 	void save(const std::string& fileName);
 
     /**
-    * load a pre-trained softmax model.
-    * @param fileName The file in which the model is saved.
-    */
+     * load a pre-trained softmax model.
+     * @param fileName The file in which the model is saved.
+     */
 	void load(const std::string& fileName);
 
 
@@ -99,8 +102,13 @@ private:
 	void evaluation(cv::Mat &labelsMat, cv::Mat &predictions);
 
 	/**
-	*
-	*/
+	 * The MNISTClass image data are stored in a high-endian binary format. To read a 4-byte integer correctly,
+	 * the program firstly read from high byte to low byte, then inverse the position of bytes. This method is an auxiliary
+	 * function to help us reading the 4-byte integers.
+	 *
+	 * @param A read-in 4 byte integer from high-endian binary format.
+	 * @param The correct value by reversing the bytes of the input integer.
+	 */
 	static int reverseInt(int i);
 };
 
