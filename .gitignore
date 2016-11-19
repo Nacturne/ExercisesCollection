@@ -84,3 +84,4 @@ $RECYCLE.BIN/
 # Added by Xiao
 Easy-MNISTClassifier/obj/
 Easy-MNISTClassifier/output/
+Easy-MNISTClassifier/run.sh
