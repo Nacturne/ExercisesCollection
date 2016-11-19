@@ -77,8 +77,11 @@ void MNISTClassifier::softmaxTrain(const MNISTDataset& dataSet,
 
 int MNISTClassifier::classifyImage(const cv::Mat& sample) {
 	// TODO Auto-generated stub, copmlete
-
-	return -1;
+    cv::Mat inputMat = sample.reshape(1,1);
+    inputMat.convertTo(inputMat, CV_32F);
+    cv::Mat classID;
+    softmaxClassifier->predict(inputMat, classID);
+	return classID.at<int>(0);
 }
 
 MNISTDataset MNISTClassifier::loadDatasetFromFiles(

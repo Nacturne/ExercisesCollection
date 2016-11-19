@@ -1,13 +1,4 @@
 /*
-Code Blocks:
-#ifndef MNISTCLASSIFIER_H_INCLUDED
-#define MNISTCLASSIFIER_H_INCLUDED
-
-#endif // MNISTCLASSIFIER_H_INCLUDED
-*/
-
-
-/*
  * MNISTClassifier.h
  *
  *  Created on: Aug 30, 2016
@@ -68,11 +59,28 @@ public:
 	static MNISTDataset loadDatasetFromFiles(const std::string& labelsFile, const std::string& imagesFile);
 
 
-
+    /**
+	 * Train a softmax classifier with user-specified parameters and MiniBatch Gradient method.
+	 *
+	 * @param dataSet Training dataset, in the format of a MNISTDataset struct.
+	 * @param iteration The iteration number.
+	 * @param learningRate The learning rate used for training.
+	 * @param MiniBatchSize The bach size used for MiniBatch Gradient method.
+	 * @param regularization The method for regularization: -1 for disabled; 0 for L1 regularizaton; 1 for L2 regularization.
+	 */
 	void softmaxTrain(const MNISTDataset &dataSet,
         int iteration = 100, double learningRate = 0.01, int MiniBatchSize = 100, int regularization = 1);
 
+    /**
+    * Save the trained model to a file specified by user. Model would be saved in 'xml' format.
+    * @param fileName The file name to save the model. The recomended extension is '.xml'.
+    */
 	void save(const std::string& fileName);
+
+    /**
+    * load a pre-trained softmax model.
+    * @param fileName The file in which the model is saved.
+    */
 	void load(const std::string& fileName);
 
 
@@ -90,6 +98,9 @@ private:
      */
 	void evaluation(cv::Mat &labelsMat, cv::Mat &predictions);
 
+	/**
+	*
+	*/
 	static int reverseInt(int i);
 };
 
