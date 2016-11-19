@@ -73,3 +73,14 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+
+
+
+
+
+
+
+# Added by Xiao
+Easy-MNISTClassifier/obj/
+Easy-MNISTClassifier/output/
