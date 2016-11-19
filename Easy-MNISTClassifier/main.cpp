@@ -44,13 +44,13 @@ int main(int argc, char** argv) {
 
 
     MNISTClassifier test(testDataset, false);
-    test.load("test.xml");
+    test.load("models/test.xml");
     test.runTestDatasetAndPrintStats(testDataset);
 
-    test.load("test-300-01-500.xml");
+    test.load("models/test-300-01-500.xml");
     test.runTestDatasetAndPrintStats(testDataset);
 
-    test.load("test-5-05-10.xml");
+    test.load("models/test-5-05-10.xml");
     test.runTestDatasetAndPrintStats(testDataset);
 
 
