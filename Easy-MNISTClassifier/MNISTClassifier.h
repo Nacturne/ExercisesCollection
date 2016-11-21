@@ -12,17 +12,15 @@
 #include <opencv2/opencv.hpp>
 
 struct MNISTDataset {
-	//e.g. std::vector<cv::Mat> images;
-	//     std::vector<int>     labels;
-    int imageMagicNumber = 0;
-    int numberOfImages = 0;
-    int rowsOfImage = 0;
-    int ColsOfImage = 0;
+    int                  imageMagicNumber = 0;
+    int                  numberOfImages   = 0;
+    int                  rowsOfImage      = 0;
+    int                  ColsOfImage      = 0;
     std::vector<cv::Mat> images;
 
-    int labelMagicNumber = 0;
-    int numberOfLabels = 0;
-	std::vector<int> labels;
+    int                  labelMagicNumber = 0;
+    int                  numberOfLabels   = 0;
+	std::vector<int>     labels;
 };
 
 class MNISTClassifier {
@@ -35,7 +33,7 @@ public:
 	 * @param trainDataset The dataset used to construct the instance.
 	 * @param train The flag indicating whether to traing thesoftmax classifier. Set it to 'false' when load a pre-trained model outside.
 	 */
-	MNISTClassifier(const MNISTDataset& trainDataset, bool train = true);
+	MNISTClassifier(const MNISTDataset& trainDataset, const bool train = true);
 	virtual ~MNISTClassifier();
 
 	/**
@@ -44,7 +42,7 @@ public:
 	 * @param sample The sample to classify.
 	 * @returns A class ID.
 	 */
-	int classifyImage(const cv::Mat& sample);
+	int classifyImage(const cv::Mat& sample) const;
 
 	/**
 	 * Run the classifier over the test dataset and print out relevant statistics.
@@ -71,8 +69,11 @@ public:
 	 * @param MiniBatchSize The bach size used for MiniBatch Gradient method.
 	 * @param regularization The method for regularization: -1 for disabled; 0 for L1 regularizaton; 1 for L2 regularization.
 	 */
-	void softmaxTrain(const MNISTDataset &dataSet,
-        int iteration = 300, double learningRate = 0.01, int MiniBatchSize = 100, int regularization = 1);
+	void softmaxTrain(const MNISTDataset& dataSet,
+	                  const int           iteration      = 300,
+	                  const double        learningRate   = 0.01,
+	                  const int           MiniBatchSize  = 100,
+	                  const int           regularization = 1);
 
     /**
      * Save the trained model to a file specified by user. Model would be saved in 'xml' format.
@@ -86,11 +87,8 @@ public:
      */
 	void load(const std::string& fileName);
 
-
-
 private:
-	//... add member variables here
-	MNISTDataset dataSet;
+	MNISTDataset                        dataSet;
 	cv::Ptr<cv::ml::LogisticRegression> softmaxClassifier;
 
     /**
@@ -99,7 +97,7 @@ private:
      * @param labelsMat The labels of ground truth, taking the form of a column matrix.
      * @param predictions The labels predicted by our model, taking the form of a column matrix.
      */
-	void evaluation(cv::Mat &labelsMat, cv::Mat &predictions);
+	void evaluation(const cv::Mat &labelsMat, const cv::Mat &predictions);
 
 	/**
 	 * The MNISTClass image data are stored in a high-endian binary format. To read a 4-byte integer correctly,
